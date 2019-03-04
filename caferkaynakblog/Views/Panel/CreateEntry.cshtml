@@ -1,0 +1,41 @@
+﻿@model EntryViewModel
+@{
+    ViewData["Title"] = "Entry";
+    Layout = "~/Views/Shared/PanelLayout.cshtml";
+}
+
+<div class="card mx-auto">
+    <div class="card-body">
+        <form method="post">
+            <div class="form-group">
+                <h2>Create Entry</h2>
+            </div>
+            <div class="form-group">
+                <input asp-for="entry.Title" class="form-control" placeholder="Title" />
+            </div>
+            <div class="form-group">
+                <textarea asp-for="entry.Content" class="form-control" placeholder="İçerik Giriniz" ></textarea>
+            </div>
+            <div class="form-group">
+                <select asp-for="entry.CategoryId" class="form-control">
+                    <option value="">Kategori Seçiniz</option>
+                    @foreach (var item in Model.categories)
+                    {
+                        <option value="@item.Id">@item.CategoryName</option>
+                    }
+                </select>
+            </div>
+            @*<div class="form-control">
+
+                @foreach (var tag in Model.tags)
+                {
+                    <input type="checkbox" asp-for="tags" value="@tag.Id" />@tag.TagName
+                }
+            </div>*@
+            <div class="form-group">
+                <input asp-action="CreateSave" asp-controller="Panel" class="form-control" type="submit" value="Create" />
+            </div>
+        </form>
+        <div asp-validation-summary="All"></div>
+    </div>
+</div>
