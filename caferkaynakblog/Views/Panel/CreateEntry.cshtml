@@ -6,7 +6,7 @@
 
 <div class="card mx-auto">
     <div class="card-body">
-        <form method="post">
+        <form asp-action="CreateEntry" asp-controller="Panel" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <h2>Create Entry</h2>
             </div>
@@ -25,15 +25,18 @@
                     }
                 </select>
             </div>
-            @*<div class="form-control">
+            <div class="form-group">
+                <input type="file" name="file" id="file" class="form-control">
+            </div>
+            <div class="form-group">
 
                 @foreach (var tag in Model.tags)
                 {
-                    <input type="checkbox" asp-for="tags" value="@tag.Id" />@tag.TagName
+                    <input type="checkbox" class="form-check-input">@tag.TagName
                 }
-            </div>*@
+            </div>
             <div class="form-group">
-                <input asp-action="CreateSave" asp-controller="Panel" class="form-control" type="submit" value="Create" />
+                <button class="form-control" type="submit" value="Create" />
             </div>
         </form>
         <div asp-validation-summary="All"></div>

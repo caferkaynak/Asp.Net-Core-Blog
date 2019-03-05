@@ -9,6 +9,8 @@ using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace caferkaynakblog.Controllers
 {
@@ -19,7 +21,7 @@ namespace caferkaynakblog.Controllers
         private UserManager<User> userManager;
         private IPasswordValidator<User> passwordValidator;
         private IPasswordHasher<User> passwordHasher;
-        
+
         public PanelController(IRepository rep, UserManager<User> _userManager, IPasswordValidator<User> _passwordValidator, IPasswordHasher<User> _passwordHasher)
         {
             repo = rep;
@@ -120,20 +122,78 @@ namespace caferkaynakblog.Controllers
             return View(entry);
         }
         [HttpPost]
-        public IActionResult CreateEntry(EntryViewModel model)
+        public async Task<IActionResult> CreateEntry(EntryViewModel model, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-            var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
-                model.entry.UsersId = user.Id;
-                repo.CreateEntry(model.entry);
-                return RedirectToAction("EntryList", "Panel");
+                if (file != null)
+                {
+                    var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        model.entry.ImageUrl = file.FileName;
+                    }
+                        var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
+                    model.entry.Date = DateTime.Now;
+                    model.entry.UsersId = user.Id;
+                    repo.CreateEntry(model.entry);
+                    return RedirectToAction("Entry", "Panel");
+                }
             }
             return View();
         }
         public IActionResult Entry()
         {
             return View();
+        }
+        public IActionResult Tag()
+        {
+            TagViewModel tags = new TagViewModel();
+            tags.tags = repo.Tags.ToList();
+            return View(tags);
+        }
+        [HttpPost]
+        public IActionResult TagCreate(TagViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var tagvalid = repo.Tags.Any(w => w.TagName == model.tag.TagName);
+                if (!tagvalid)
+                    repo.CreateTag(model.tag);
+                else
+                    ModelState.AddModelError("Error", "Aynı tag adı bulunmaktadır.");
+            }
+            return RedirectToAction("Tag", "Panel");
+        }
+        public IActionResult TagEdit()
+        {
+            TagViewModel tags = new TagViewModel();
+            tags.tags = repo.Tags.ToList();
+            return View(tags);
+        }
+        [HttpPost]
+        public IActionResult TagUpdate(TagViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var tag = repo.Tags.Where(w => w.Id == model.tag.Id).FirstOrDefault();
+                tag.TagName = model.tag.TagName;
+                repo.UpdateTag(tag);
+            }
+            return RedirectToAction("TagEdit", "Panel");
+        }
+        [HttpPost]
+        public IActionResult TagDelete(TagViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var tag = repo.Tags.Where(w => w.Id == model.tag.Id).FirstOrDefault();
+                repo.DeleteTag(tag);
+            }
+            return RedirectToAction("TagEdit", "Panel");
         }
     }
 }

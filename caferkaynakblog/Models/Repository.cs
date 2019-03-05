@@ -19,6 +19,7 @@ namespace caferkaynakblog.Models
         public IQueryable<Entry> Entries => repository.Entries;
         public IQueryable<Tag> Tags => repository.Tags;
         public IQueryable<Category> Categories => repository.Categories;
+        public IQueryable<EntryTag> EntryTags => repository.EntryTags;
 
         public void CreateUser(User user)
         {
@@ -59,6 +60,21 @@ namespace caferkaynakblog.Models
         public void DeleteEntry(Entry entry)
         {
             repository.Entries.Remove(entry);
+            repository.SaveChanges();
+        }
+        public void CreateTag(Tag tag)
+        {
+            repository.Tags.Add(tag);
+            repository.SaveChanges();
+        }
+        public void UpdateTag(Tag tag)
+        {
+            repository.Tags.Update(tag);
+            repository.SaveChanges();
+        }
+        public void DeleteTag(Tag tag)
+        {
+            repository.Tags.Remove(tag);
             repository.SaveChanges();
         }
     }

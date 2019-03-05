@@ -16,7 +16,5 @@ namespace caferkaynakblog.Models
         public virtual User User { get; set; }
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
-        public int TagId { get; set; }
-        public virtual Tag Tag { get; set; }
     }
 }
