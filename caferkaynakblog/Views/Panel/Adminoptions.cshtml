@@ -3,33 +3,33 @@
     ViewData["Title"] = "Adminoptions";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
-
-<div class="card mx-auto">
-
-    <div>
-        <h2>Option</h2>
-    </div>
-    <div class="card-body">
-        <form asp-action="Adminoptions" method="post" asp-controller="Panel">
-            <div class="form-group">
-                <label class="form-control">@User.Identity.Name</label>
-            </div>
-            <div class="form-group">
-                <input type="email" asp-for="Email" placeholder="E - Mail" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="password" asp-for="LastPassword" placeholder="Last Password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="password" asp-for="Password" placeholder="New Password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="password" asp-for="PasswordT" placeholder="New Password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="form-control">Değiştir</button>
-            </div>
-        </form>
-        <div asp-validation-summary="All"></div>
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div>
+            <h2>Option</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Adminoptions" method="post" asp-controller="Panel">
+                <div class="form-group">
+                    <label class="form-control">@User.Identity.Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" asp-for="Email" placeholder="E - Mail" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="LastPassword" placeholder="Last Password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="Password" placeholder="New Password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="password" asp-for="PasswordT" placeholder="New Password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="form-control">Değiştir</button>
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
+        </div>
     </div>
 </div>

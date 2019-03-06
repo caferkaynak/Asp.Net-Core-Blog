@@ -3,42 +3,43 @@
     ViewData["Title"] = "Entry";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div class="card-body">
+            <form asp-action="CreateEntry" asp-controller="Panel" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <h2>Create Entry</h2>
+                </div>
+                <div class="form-group">
+                    <input asp-for="entry.Title" class="form-control" placeholder="Title" />
+                </div>
+                <div class="form-group">
+                    <textarea asp-for="entry.Content" class="form-control" placeholder="İçerik Giriniz"></textarea>
+                </div>
+                <div class="form-group">
+                    <select asp-for="entry.CategoryId" class="form-control">
+                        <option value="">Kategori Seçiniz</option>
+                        @foreach (var item in Model.categories)
+                        {
+                            <option value="@item.Id">@item.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" name="file" id="file" class="form-control">
+                </div>
+                <div class="form-group">
 
-<div class="card mx-auto">
-    <div class="card-body">
-        <form asp-action="CreateEntry" asp-controller="Panel" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <h2>Create Entry</h2>
-            </div>
-            <div class="form-group">
-                <input asp-for="entry.Title" class="form-control" placeholder="Title" />
-            </div>
-            <div class="form-group">
-                <textarea asp-for="entry.Content" class="form-control" placeholder="İçerik Giriniz" ></textarea>
-            </div>
-            <div class="form-group">
-                <select asp-for="entry.CategoryId" class="form-control">
-                    <option value="">Kategori Seçiniz</option>
-                    @foreach (var item in Model.categories)
+                    @foreach (var tag in Model.tags)
                     {
-                        <option value="@item.Id">@item.CategoryName</option>
+                        <input type="checkbox" class="form-check-input">@tag.TagName
                     }
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="file" name="file" id="file" class="form-control">
-            </div>
-            <div class="form-group">
-
-                @foreach (var tag in Model.tags)
-                {
-                    <input type="checkbox" class="form-check-input">@tag.TagName
-                }
-            </div>
-            <div class="form-group">
-                <button class="form-control" type="submit" value="Create" />
-            </div>
-        </form>
-        <div asp-validation-summary="All"></div>
+                </div>
+                <div class="form-group">
+                    <button class="form-control" type="submit" value="Create" />
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
+        </div>
     </div>
 </div>

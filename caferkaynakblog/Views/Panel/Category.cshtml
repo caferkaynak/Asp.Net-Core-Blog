@@ -3,37 +3,38 @@
     ViewData["Title"] = "Category";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
-
-<div class="card mx-auto">
-    <div class="card-body">
-        <div class="form-group">
-            <h2>Categories</h2>
-            @foreach (var item in Model.Categories)
-            {
-                <ul>
-                    <li><h5>@item.CategoryName</h5></li>
-                </ul>
-            }
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div class="card-body">
+            <div class="form-group">
+                <h2>Categories</h2>
+                @foreach (var item in Model.Categories)
+                {
+                    <ul>
+                        <li><h5>@item.CategoryName</h5></li>
+                    </ul>
+                }
+            </div>
+            <form method="post">
+                <div class="form-group">
+                    <h2>Category Add</h2>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" asp-for="category.CategoryName" placeholder="Category Name for New Category" />
+                </div>
+                <div class="form-group">
+                    <select asp-for="category.Status" class="form-control">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-action="CategorySave" asp-controller="Panel" class="form-control" type="submit" value="Create" />
+                </div><div class="form-group">
+                    <input asp-action="CategoryEdit" asp-controller="Panel" class="form-control" type="submit" value="Edit" />
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
         </div>
-        <form method="post">
-            <div class="form-group">
-                <h2>Category Add</h2>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" asp-for="category.CategoryName" placeholder="Category Name for New Category" />
-            </div>
-            <div class="form-group">
-                <select asp-for="category.Status" class="form-control">
-                    <option value="True">True</option>
-                    <option value="False">False</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input asp-action="CategorySave" asp-controller="Panel" class="form-control" type="submit" value="Create" />
-            </div><div class="form-group">
-                <input asp-action="CategoryEdit" asp-controller="Panel" class="form-control" type="submit" value="Edit" />
-            </div>
-        </form>
-        <div asp-validation-summary="All"></div>
     </div>
 </div>

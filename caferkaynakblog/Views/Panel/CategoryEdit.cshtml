@@ -3,46 +3,47 @@
     ViewData["Title"] = "Category";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
-
-<div class="card mx-auto">
-    <div class="card-body">
-        <div class="form-group">
-            <h2>Categories</h2>
-            @foreach (var item in Model.Categories)
-            {
-                <ul>
-                    <li><h5>@item.CategoryName</h5></li>
-                </ul>
-            }
-        </div>
-        <form method="post">
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div class="card-body">
             <div class="form-group">
-                <h2>Category Add</h2>
+                <h2>Categories</h2>
+                @foreach (var item in Model.Categories)
+                {
+                    <ul>
+                        <li><h5>@item.CategoryName</h5></li>
+                    </ul>
+                }
             </div>
-            <div class="form-group">
-                <select class="form-control" asp-for="category.Id">
+            <form method="post">
+                <div class="form-group">
+                    <h2>Category Add</h2>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" asp-for="category.Id">
                         <option value="">Kategori Seçiniz</option>
                         @foreach (var item in Model.Categories)
                         {
                             <option value="@item.Id">@item.CategoryName</option>
                         }
                     </select>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" asp-for="category.CategoryName" placeholder="Category Name for Update Category" />
-            </div>
-            <div class="form-group">
-                <select asp-for="category.Status" class="form-control">
-                    <option value="True">True</option>
-                    <option value="False">False</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input asp-action="CategoryUpdate" asp-controller="Panel" class="form-control" type="submit" value="Update" />
-            </div><div class="form-group">
-                <input asp-action="CategoryDelete" asp-controller="Panel" class="form-control" type="submit" value="Delete" />
-            </div>
-        </form>
-        <div asp-validation-summary="All"></div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" asp-for="category.CategoryName" placeholder="Category Name for Update Category" />
+                </div>
+                <div class="form-group">
+                    <select asp-for="category.Status" class="form-control">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-action="CategoryUpdate" asp-controller="Panel" class="form-control" type="submit" value="Update" />
+                </div><div class="form-group">
+                    <input asp-action="CategoryDelete" asp-controller="Panel" class="form-control" type="submit" value="Delete" />
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
+        </div>
     </div>
 </div>

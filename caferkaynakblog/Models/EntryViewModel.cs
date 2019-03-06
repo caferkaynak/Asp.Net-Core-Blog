@@ -11,5 +11,6 @@ namespace caferkaynakblog.Models
         public List<Category> categories{ get; set; }
         public List<Tag> tags { get; set; }
         public Entry entry { get; set; }
+        public List<Entry> entries { get; set; }
     }
 }

@@ -263,7 +263,18 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a asp-action="CreateEntry" asp-controller="Panel"><i class="fa fa-dashboard fa-fw"></i>Entry</a>
+                            <a><i class="fa fa-dashboard fa-fw"></i>Entry</a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a asp-action="Entry" asp-controller="Panel">Entry List</a>
+                                </li>
+                                <li>
+                                    <a asp-action="CreateEntry" asp-controller="Panel">Create Entry</a>
+                                </li>
+                                <li>
+                                    <a asp-action="#UpdateEntry" asp-controller="Panel">Update Entry</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Current Options<span class="fa arrow"></span></a>

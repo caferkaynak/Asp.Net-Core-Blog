@@ -145,6 +145,31 @@ namespace caferkaynakblog.Controllers
         }
         public IActionResult Entry()
         {
+            EntryViewModel entryViewModel = new EntryViewModel();
+            entryViewModel.entries = repo.Entries.ToList();
+            return View(entryViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateEntry(EntryViewModel model,IFormFile file)
+        {
+
+            if (ModelState.IsValid)
+            {
+                if (file != null)
+                {
+                    var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        model.entry.ImageUrl = file.FileName;
+                    }
+                    var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
+                    model.entry.Date = DateTime.Now;    
+                    model.entry.UsersId = user.Id;
+                    repo.UpdateEntry(model.entry);
+                    return RedirectToAction("Entry", "Panel");
+                }
+            }
             return View();
         }
         public IActionResult Tag()

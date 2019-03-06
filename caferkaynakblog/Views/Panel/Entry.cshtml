@@ -1,9 +1,48 @@
-﻿
+﻿@model EntryViewModel
 @{
     ViewData["Title"] = "Entry";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
+<div class="container mt-3">
+    <h2>Blog list</h2>
+    <div class="row">
+        <div class="col">
+            @if (Model.entries.Count > 0)
+            {
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>Başlık</td>
+                        <td>Resim</td>
+                        <td>Kategori</td>
+                        <td>Yükleme Tarihi</td>
+                        <td>Yazar</td>
+                        <td>Update</td>
+                        <td>Remove</td>
+                    </tr>
+                <tbody>
+                    @foreach (var item in Model.entries)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td><img src="~/img/@item.ImageUrl" width="100" /></td>
+                            <td>@item.CategoryId</td>
+                            <td>@item.Date</td>
+                            <td>@item.UsersId</td>
+                            <td><a asp-action="UpdateEntry" asp-controller="Panel" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Edit</a></td>
+                            <td><a asp-action="DeleteEntry" asp-controller="Panel" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    Hiç Entry Yoktur
+                </div>
+            }
 
-<h2>Entry</h2>
-
-h
+        </div>
+    </div>
+</div>

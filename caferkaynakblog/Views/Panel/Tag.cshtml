@@ -3,37 +3,38 @@
     ViewData["Title"] = "Tag";
     Layout = "~/Views/Shared/PanelLayout.cshtml";
 }
-
-<div class="card mx-auto">
-    <div class="card-body">
-        <div class="form-group">
-            <h2>Tags</h2>
-            @foreach (var item in Model.tags)
-            {
-                <ul>
-                    <li><h5>@item.TagName</h5></li>
-                </ul>
-            }
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div class="card-body">
+            <div class="form-group">
+                <h2>Tags</h2>
+                @foreach (var item in Model.tags)
+                {
+                    <ul>
+                        <li><h5>@item.TagName</h5></li>
+                    </ul>
+                }
+            </div>
+            <form method="post">
+                <div class="form-group">
+                    <h2>Category Add</h2>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" asp-for="tag.TagName" placeholder="Category Name for New Category" />
+                </div>
+                <div class="form-group">
+                    <select asp-for="tag.Status" class="form-control">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input asp-action="TagCreate" asp-controller="Panel" class="form-control" type="submit" value="Create" />
+                </div><div class="form-group">
+                    <input asp-action="TagEdit" asp-controller="Panel" class="form-control" type="submit" value="Edit" />
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
         </div>
-        <form method="post">
-            <div class="form-group">
-                <h2>Category Add</h2>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="text" asp-for="tag.TagName" placeholder="Category Name for New Category" />
-            </div>
-            <div class="form-group">
-                <select asp-for="tag.Status" class="form-control">
-                    <option value="True">True</option>
-                    <option value="False">False</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input asp-action="TagCreate" asp-controller="Panel" class="form-control" type="submit" value="Create" />
-            </div><div class="form-group">
-                <input asp-action="TagEdit" asp-controller="Panel" class="form-control" type="submit" value="Edit" />
-            </div>
-        </form>
-        <div asp-validation-summary="All"></div>
     </div>
 </div>
