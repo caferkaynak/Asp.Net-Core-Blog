@@ -126,7 +126,16 @@ namespace caferkaynakblog.Controllers
         {
             EntryViewModel entryViewModel = new EntryViewModel();
             entryViewModel.entries = repo.Entries.ToList();
-            return View(entryViewModel);
+            entryViewModel.categories = repo.Categories.ToList();
+            List<UsersIdName> List = new List<UsersIdName>();
+            foreach (var item in repo.Users)
+            {
+                List.Add(
+                    new UsersIdName() { UserId = item.Id, UserName = item.UserName}
+                    );
+            }
+            entryViewModel.usersIdNames = List.ToList();
+                return View(entryViewModel);
         }
         public IActionResult UpdateEntry(int id)
         {
@@ -144,41 +153,17 @@ namespace caferkaynakblog.Controllers
         }
         public IActionResult CreateEntry()
         {
-            EntryViewModel entry = new EntryViewModel();
-            entry.categories = repo.Categories.ToList();
-            entry.tags = repo.Tags.ToList();
-            return View(entry);
+            EntryViewModel model = new EntryViewModel();
+            model.categories = repo.Categories.ToList();
+            model.tags = repo.Tags.ToList();
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> CreateEntry(EntryViewModel model, IFormFile file)
         {
             if (ModelState.IsValid)
             {
-                    if (file != null)
-                    {
-                        var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                            model.entry.ImageUrl = file.FileName;
-                        }
-                        var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
-                        model.entry.Date = DateTime.Now;
-                        model.entry.UsersId = user.Id;
-                        repo.CreateEntry(model.entry);
-                        return RedirectToAction("Entry", "Panel");
-                    }
-                    else
-                        ModelState.AddModelError("Hata", "Resim seçilmedi");
-            }
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> UpdateEntry(EntryViewModel model, IFormFile file)
-        {
-            if (ModelState.IsValid)
-            {
-                if (file != null)
+                if (file != null && model.entry.CategoryId != 0)
                 {
                     var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
                     using (var stream = new FileStream(path, FileMode.Create))
@@ -189,12 +174,38 @@ namespace caferkaynakblog.Controllers
                     var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
                     model.entry.Date = DateTime.Now;
                     model.entry.UsersId = user.Id;
-
-                    repo.UpdateEntry(model.entry);
+                    repo.CreateEntry(model.entry);
                     return RedirectToAction("Entry", "Panel");
                 }
             }
-            return View();
+            model.categories = repo.Categories.ToList();
+            model.tags = repo.Tags.ToList();
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateEntry(EntryViewModel model, IFormFile file, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (file != null)
+                {
+                    var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                        model.entry.ImageUrl = file.FileName;
+                    } 
+                }
+                var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
+                model.entry.Date = DateTime.Now;
+                model.entry.UsersId = user.Id;
+                repo.UpdateEntry(model.entry);
+                return RedirectToAction("Entry", "Panel");
+            }
+            model.entry = repo.Entries.Where(w => w.Id == id).FirstOrDefault();
+            model.categories = repo.Categories.ToList();
+            model.tags = repo.Tags.ToList();
+            return View(model);
         }
 
 
