@@ -1,0 +1,57 @@
+﻿@model EntryViewModel
+@{
+    ViewData["Title"] = "UpdateEntry";
+    Layout = "~/Views/Shared/PanelLayout.cshtml";
+}
+@section scripts{
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace("Body");
+    </script>
+}
+<div class="container mt-3">
+    <div class="card mx-auto">
+        <div class="card-body">
+            @*<div class="form-group">
+                    <img src="~/img/@Model.entry.ImageUrl" width="100" />
+                </div>*@
+            <form asp-action="UpdateEntry" asp-controller="Panel" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="entry.Id" />
+                <input type="hidden" asp-for="entry.ImageUrl" />
+                <div class="form-group">
+                    <h2>Update Entry</h2>
+                </div>
+                <div class="form-group">
+                    <input asp-for="entry.Title" class="form-control" placeholder="Title" />
+                </div>
+
+                <div class="form-group">
+                    <textarea asp-for="entry.Content" id="Body" class="form-control" placeholder="İçerik Giriniz"></textarea>
+                </div>
+                <div class="form-group">
+                    <select asp-for="entry.CategoryId" class="form-control">
+                        <option value="">Kategori Seçiniz</option>
+                        @foreach (var item in Model.categories)
+                        {
+                            <option value="@item.Id">@item.CategoryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" name="file" id="file" class="form-control">
+                </div>
+                <div class="form-group">
+
+                    @foreach (var tag in Model.tags)
+                    {
+                        <input type="checkbox" class="form-check-input">@tag.TagName
+                    }
+                </div>
+                <div class="form-group">
+                    <button class="form-control" type="submit" /> Update
+                </div>
+            </form>
+            <div asp-validation-summary="All"></div>
+        </div>
+    </div>
+</div>

@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group">
                     <select class="form-control" asp-for="tag.Id">
-                        <option value="">Tag Seçiniz</option>
+                        <option disabled selected value="">Selected Tag</option>
                         @foreach (var item in Model.tags)
                         {
                             <option value="@item.Id">@item.TagName</option>

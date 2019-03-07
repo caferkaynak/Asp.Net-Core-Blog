@@ -33,6 +33,8 @@ namespace caferkaynakblog.Controllers
         {
             return View();
         }
+
+
         public IActionResult Adminoptions()
         {
             var UpdateUser = new UpdateUser();
@@ -68,24 +70,14 @@ namespace caferkaynakblog.Controllers
             }
             return View();
         }
+
+
+
         public IActionResult Category()
         {
             CategoryViewModel categories = new CategoryViewModel();
             categories.Categories = repo.Categories.ToList();
             return View(categories);
-        }
-        [HttpPost]
-        public IActionResult CategorySave(CategoryViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var categoryvalid = repo.Categories.Any(w => w.CategoryName == model.category.CategoryName);
-                if (!categoryvalid)
-                    repo.CreateCategory(model.category);
-                else
-                    ModelState.AddModelError("Error", "Aynı kategori adı bulunmaktadır.");
-            }
-            return RedirectToAction("Category", "Panel");
         }
         public IActionResult CategoryEdit()
         {
@@ -114,6 +106,42 @@ namespace caferkaynakblog.Controllers
             }
             return RedirectToAction("CategoryEdit", "Panel");
         }
+        [HttpPost]
+        public IActionResult CategorySave(CategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var categoryvalid = repo.Categories.Any(w => w.CategoryName == model.category.CategoryName);
+                if (!categoryvalid)
+                    repo.CreateCategory(model.category);
+                else
+                    ModelState.AddModelError("Error", "Aynı kategori adı bulunmaktadır.");
+            }
+            return RedirectToAction("Category", "Panel");
+        }
+
+
+
+        public IActionResult Entry()
+        {
+            EntryViewModel entryViewModel = new EntryViewModel();
+            entryViewModel.entries = repo.Entries.ToList();
+            return View(entryViewModel);
+        }
+        public IActionResult UpdateEntry(int id)
+        {
+            EntryViewModel model = new EntryViewModel();
+            model.entry = repo.Entries.Where(w => w.Id == id).FirstOrDefault();
+            model.categories = repo.Categories.ToList();
+            model.tags = repo.Tags.ToList();
+            return View(model);
+        }
+        public IActionResult DeleteEntry(int id)
+        {
+            var entry = repo.Entries.Where(w => w.Id == id).FirstOrDefault();
+            repo.DeleteEntry(entry);
+            return RedirectToAction("Entry", "Panel");
+        }
         public IActionResult CreateEntry()
         {
             EntryViewModel entry = new EntryViewModel();
@@ -126,33 +154,28 @@ namespace caferkaynakblog.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (file != null)
-                {
-                    var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    if (file != null)
                     {
-                        await file.CopyToAsync(stream);
-                        model.entry.ImageUrl = file.FileName;
-                    }
+                        var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                            model.entry.ImageUrl = file.FileName;
+                        }
                         var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
-                    model.entry.Date = DateTime.Now;
-                    model.entry.UsersId = user.Id;
-                    repo.CreateEntry(model.entry);
-                    return RedirectToAction("Entry", "Panel");
-                }
+                        model.entry.Date = DateTime.Now;
+                        model.entry.UsersId = user.Id;
+                        repo.CreateEntry(model.entry);
+                        return RedirectToAction("Entry", "Panel");
+                    }
+                    else
+                        ModelState.AddModelError("Hata", "Resim seçilmedi");
             }
             return View();
         }
-        public IActionResult Entry()
-        {
-            EntryViewModel entryViewModel = new EntryViewModel();
-            entryViewModel.entries = repo.Entries.ToList();
-            return View(entryViewModel);
-        }
         [HttpPost]
-        public async Task<IActionResult> UpdateEntry(EntryViewModel model,IFormFile file)
+        public async Task<IActionResult> UpdateEntry(EntryViewModel model, IFormFile file)
         {
-
             if (ModelState.IsValid)
             {
                 if (file != null)
@@ -164,15 +187,25 @@ namespace caferkaynakblog.Controllers
                         model.entry.ImageUrl = file.FileName;
                     }
                     var user = repo.Users.FirstOrDefault(w => w.UserName == User.Identity.Name);
-                    model.entry.Date = DateTime.Now;    
+                    model.entry.Date = DateTime.Now;
                     model.entry.UsersId = user.Id;
+
                     repo.UpdateEntry(model.entry);
                     return RedirectToAction("Entry", "Panel");
                 }
             }
             return View();
         }
+
+
+
         public IActionResult Tag()
+        {
+            TagViewModel tags = new TagViewModel();
+            tags.tags = repo.Tags.ToList();
+            return View(tags);
+        }
+        public IActionResult TagEdit()
         {
             TagViewModel tags = new TagViewModel();
             tags.tags = repo.Tags.ToList();
@@ -190,12 +223,6 @@ namespace caferkaynakblog.Controllers
                     ModelState.AddModelError("Error", "Aynı tag adı bulunmaktadır.");
             }
             return RedirectToAction("Tag", "Panel");
-        }
-        public IActionResult TagEdit()
-        {
-            TagViewModel tags = new TagViewModel();
-            tags.tags = repo.Tags.ToList();
-            return View(tags);
         }
         [HttpPost]
         public IActionResult TagUpdate(TagViewModel model)
