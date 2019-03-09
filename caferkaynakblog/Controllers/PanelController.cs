@@ -165,6 +165,7 @@ namespace caferkaynakblog.Controllers
             {
                 if (file != null && model.entry.CategoryId != 0)
                 {
+                    
                     var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
                     using (var stream = new FileStream(path, FileMode.Create))
                     {

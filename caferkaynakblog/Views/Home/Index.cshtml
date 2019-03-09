@@ -14,7 +14,7 @@
     @foreach (var item in Model.entries)
     {
         <div class="card mb-4">
-            <img class="card-img-top" src="~/img/@item.ImageUrl" alt="@item.Title">
+            <img class="card-img-top" src="~/img/@item.ImageUrl" alt="@item.Title" height="300">
             <div class="card-body">
                 <h2 class="card-title">@item.Title</h2>
                 <p class="card-text">@Html.Raw(@item.Content)</p>
