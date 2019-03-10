@@ -1,6 +1,6 @@
 ﻿@model EntryViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "CategoryList";
     Layout = "~/Views/Shared/HomeLayout.cshtml";
 }
 <!-- Page Content -->
@@ -18,22 +18,22 @@
             <div class="card-body">
                 <h2 class="card-title">@item.Title</h2>
                 <p class="card-text">@Html.Raw(@item.Content)</p>
-                <a class="btn btn-primary" asp-action="Entry" asp-controller="Home" asp-route-id="@item.Id" >Read More &rarr;</a>
+                <a class="btn btn-primary" asp-action="Entry" asp-controller="Home" asp-route-id="@item.Id">Read More &rarr;</a>
             </div>
             <div class="card-footer text-muted">
                 @item.Date
-                    @foreach (var user in Model.usersIdNames)
+                @foreach (var user in Model.usersIdNames)
+                {
+                    if (user.UserId == item.UsersId)
                     {
-                        if (user.UserId == item.UsersId)
-                        {
-                            TempData["Autor"] = user.UserName;
-                        }
+                        TempData["Autor"] = user.UserName;
                     }
+                }
                 @TempData["Autor"]
             </div>
         </div>
     }<!-- Sidebar Widgets Column -->
-    
+
 </div>
 <div class="col-md-4">
     <!-- Search Widget -->
@@ -58,9 +58,9 @@
                     <ul class="list-unstyled mb-0">
                         @foreach (var item in Model.categories)
                         {
-                            <li>
-                                <a asp-action="CategoryList" asp-controller="Home" asp-route-id="@item.Id">@item.CategoryName</a>
-                            </li>
+                        <li>
+                            <a asp-action="CategoryList" asp-controller="Home" asp-route-id="@item.Id">@item.CategoryName</a>
+                        </li>
                         }
                     </ul>
                 </div>

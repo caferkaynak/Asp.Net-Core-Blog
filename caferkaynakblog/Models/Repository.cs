@@ -8,74 +8,73 @@ namespace caferkaynakblog.Models
 {
     public class Repository : IRepository
     {
-        private ApplicationDbContext context;
-        public ApplicationDbContext repository;
-        public Repository(ApplicationDbContext repo,ApplicationDbContext _context)
+
+        public ApplicationDbContext context;
+        public Repository(ApplicationDbContext _context)
         {
-            repository = repo;
             context = _context;
         }
-        public IQueryable<User> Users => repository.Users;
-        public IQueryable<Entry> Entries => repository.Entries;
-        public IQueryable<Tag> Tags => repository.Tags;
-        public IQueryable<Category> Categories => repository.Categories;
-        public IQueryable<EntryTag> EntryTags => repository.EntryTags;
+        public IQueryable<User> Users => context.Users;
+        public IQueryable<Entry> Entries => context.Entries;
+        public IQueryable<Tag> Tags => context.Tags;
+        public IQueryable<Category> Categories => context.Categories;
+        public IQueryable<EntryTag> EntryTags => context.EntryTags;
 
         public void CreateUser(User user)
         {
-            repository.Users.Add(user);
-            repository.SaveChanges();
+            context.Users.Add(user);
+            context.SaveChanges();
         }
 
         public void UpdateUser(User user)
         {
-            repository.Users.Update(user);
-            repository.SaveChanges();
+            context.Users.Update(user);
+            context.SaveChanges();
         }
         public void CreateCategory(Category category)
         {
-            repository.Categories.Add(category);
-            repository.SaveChanges();
+            context.Categories.Add(category);
+            context.SaveChanges();
         }
         public void UpdateCategory(Category category)
         {
-            repository.Categories.Update(category);
-            repository.SaveChanges();
+            context.Categories.Update(category);
+            context.SaveChanges();
         }
         public void DeleteCategory(Category category)
         {
-            repository.Categories.Remove(category);
-            repository.SaveChanges();
+            context.Categories.Remove(category);
+            context.SaveChanges();
         }
         public void CreateEntry(Entry entry)
         {
-            repository.Entries.Add(entry);
-            repository.SaveChanges();
+            context.Entries.Add(entry);
+            context.SaveChanges();
         }
         public void UpdateEntry(Entry entry)
         {
-            repository.Entries.Update(entry);
-            repository.SaveChanges();
+            context.Entries.Update(entry);
+            context.SaveChanges();
         }
         public void DeleteEntry(Entry entry)
         {
-            repository.Entries.Remove(entry);
-            repository.SaveChanges();
+            context.Entries.Remove(entry);
+            context.SaveChanges();
         }
         public void CreateTag(Tag tag)
         {
-            repository.Tags.Add(tag);
-            repository.SaveChanges();
+            context.Tags.Add(tag);
+            context.SaveChanges();
         }
         public void UpdateTag(Tag tag)
         {
-            repository.Tags.Update(tag);
-            repository.SaveChanges();
+            context.Tags.Update(tag);
+            context.SaveChanges();
         }
         public void DeleteTag(Tag tag)
         {
-            repository.Tags.Remove(tag);
-            repository.SaveChanges();
+            context.Tags.Remove(tag);
+            context.SaveChanges();
         }
     }
 }

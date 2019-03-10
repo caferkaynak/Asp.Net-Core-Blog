@@ -1,0 +1,24 @@
+﻿@model EntryViewModel
+@{
+    ViewData["Title"] = "Entry";
+    Layout = "~/Views/Shared/HomeLayout.cshtml";
+}
+
+<div class="card mb-4">
+    <img class="card-img-top" src="~/img/@Model.entry.ImageUrl" alt="@Model.entry.Title" height="300">
+    <div class="card-body">
+        <h2 class="card-title">@Model.entry.Title</h2>
+        <p class="card-text">@Html.Raw(Model.entry.Content)</p>
+    </div>
+    <div class="card-footer text-muted">
+        @Model.entry.Date
+        @foreach (var user in Model.usersIdNames)
+        {
+            if (user.UserId == Model.entry.UsersId)
+            {
+                TempData["Autor"] = user.UserName;
+            }
+        }
+        @TempData["Autor"]
+    </div>
+</div>
