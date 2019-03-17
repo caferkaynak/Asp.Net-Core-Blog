@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Attributes\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>

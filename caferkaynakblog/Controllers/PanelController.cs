@@ -4,15 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using caferkaynakblog.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
-using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
 
 namespace caferkaynakblog.Controllers
