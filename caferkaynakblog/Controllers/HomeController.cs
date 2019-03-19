@@ -17,6 +17,7 @@ namespace caferkaynakblog.Controllers
             EntryViewModel model = new EntryViewModel();
             foreach (var item1 in repository.Entries)
             {
+                if(item1.Content.Length>550)
                 item1.Content = item1.Content.Substring(0, 550);
             }
             model.entries = repository.Entries.ToList();
