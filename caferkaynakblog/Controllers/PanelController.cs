@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace caferkaynakblog.Controllers
 {
@@ -163,8 +165,8 @@ namespace caferkaynakblog.Controllers
             {
                 if (file != null && model.entry.CategoryId != 0)
                 {
-                    
-                    var path = Path.Combine(Thread.GetDomain().BaseDirectory, "\\wwwroot\\img\\", file.FileName);
+                    CurrentDirectoryHelpers.SetCurrentDirectory();
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
@@ -188,7 +190,8 @@ namespace caferkaynakblog.Controllers
             {
                 if (file != null)
                 {
-                    var path = Path.Combine("\\Users\\Cafer Kaynak\\Source\\Repos\\caferkaynakblog\\caferkaynakblog\\wwwroot\\img\\", file.FileName);
+                    CurrentDirectoryHelpers.SetCurrentDirectory();
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", file.FileName);
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await file.CopyToAsync(stream);
